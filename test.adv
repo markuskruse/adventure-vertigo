@@ -1,0 +1,33 @@
+{
+  "pages": [
+    {
+      "area": "start",
+      "label": "Start",
+      "text": "Du blir tvungen att flytta hem till din mormor när dina föräldrar försvinner. Hon bor i en annan by.",
+      "choices": [
+        {
+          "choice": "Gå vidare",
+          "target": {
+            "type": "straight",
+            "id": 2
+          }
+        }
+      ]
+    },
+    {
+      "area": "byn",
+      "label": "Utforskning",
+      "text": "Du vaknar och äter frukost med din mormor. Sedan vandrar du ut i din nya hemby.",
+      "choices": [
+        {
+          "choice": "Utforska din nya hemby",
+          "condition": [],
+          "target": {
+            "type": "random",
+            "ids": [3, 4, 5, 6]
+          }
+        }
+      ]
+    }
+  ]
+}
