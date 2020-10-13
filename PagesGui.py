@@ -82,12 +82,12 @@ class PagesGui(QWidget):
         print(self.area_search_edit.text() in self.model.pages()[0]["area"])
         for page in self.model.pages():
             if (not self.area_search_edit.text() or self.area_search_edit.text() in page["area"]) \
-                    and (not self.label_search_edit.text() or self.label_search_edit.text() in page["label"])\
-                    and (not self.search_edit.text() or self.search_edit.text() in page["text"]):
+                    and (not self.label_search_edit.text() or self.label_search_edit.text() in page["label"]) \
+                    and (not self.search_edit.text() or self.search_edit.text() in page["text"]
+                         or self.search_edit.text() in page["area"] or self.search_edit.text() in page["label"]):
                 item = QStandardItem(page["area"] + ": " + page["label"])
                 self.page_list_model.appendRow(item)
-            else:
-                print(page)
 
     def model_update_event(self, arg1):
-        self.rebuild_page_list()
+        if arg1["type"] in ("area", "label"):
+            self.rebuild_page_list()

@@ -24,3 +24,6 @@ class AdventureModel():
             if name == page_name:
                 return page
         return None
+
+    def data(self):
+        return self.json_model

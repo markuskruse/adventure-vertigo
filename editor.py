@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     main_gui = MainGui(model)
 
-    window = MainWindow(main_gui)
+    window = MainWindow(main_gui, model)
     window.resize(800, 600)
     window.show()
 
