@@ -39,15 +39,18 @@ class EditorTab(QWidget):
 
     @Slot()
     def edit_label(self):
-        self.page_model["label"] = self.label_line_edit.text()
-        pub.sendMessage("model_updated")
+        if not self.page_model["label"] == self.label_line_edit.text():
+            self.page_model["label"] = self.label_line_edit.text()
+            pub.sendMessage("model_updated", arg1=self.page_model)
 
     @Slot()
     def edit_area(self):
-        self.page_model["area"] = self.area_line_edit.text()
-        pub.sendMessage("model_updated")
+        if not self.page_model["area"] == self.area_line_edit.text():
+            self.page_model["area"] = self.area_line_edit.text()
+            pub.sendMessage("model_updated", arg1=self.page_model)
 
     @Slot()
     def edit_text(self):
-        self.page_model["text"] = self.text_edit.document()
-        pub.sendMessage("model_updated")
+        if not self.page_model["text"] == self.text_edit.document():
+            self.page_model["text"] = self.text_edit.document()
+            pub.sendMessage("model_updated", arg1=self.page_model)

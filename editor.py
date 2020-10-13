@@ -14,6 +14,9 @@ from MainGui import MainGui
 from MainWindow import MainWindow
 
 
+def log_edited(arg1):
+    print("Model edited ", arg1)
+
 if __name__ == "__main__":
 
     file = open("test.adv", 'r')
@@ -32,5 +35,7 @@ if __name__ == "__main__":
     window = MainWindow(main_gui)
     window.resize(800, 600)
     window.show()
+
+    pub.subscribe(log_edited, "model_updated")
 
     sys.exit(app.exec_())

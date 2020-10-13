@@ -45,8 +45,13 @@ class PagesGui(QWidget):
         layout.addWidget(add_page_button)
         add_page_button.clicked.connect(self.add_page)
 
+        self.page_list_model = QStandardItemModel()
+        for page in self.model.pages():
+            item = QStandardItem(page["area"] + ": " + page["label"])
+            self.page_list_model.appendRow(item)
+
         self.page_list_view = QListView()
-        self.page_list_view.setModel(model.pages())
+        self.page_list_view.setModel(self.page_list_model)
         self.page_list_view.setEditTriggers(QAbstractItemView.NoEditTriggers)
         layout.addWidget(self.page_list_view)
         self.page_list_view.clicked.connect(self.open_page)
@@ -60,13 +65,29 @@ class PagesGui(QWidget):
     @Slot()
     def open_page(self):
         index = self.page_list_view.currentIndex()
-        page_name = self.model.lookup_page(index).text()
+        page_name = self.lookup_page(index).text()
         page = self.model.find_page(page_name)
         self.gui.open_page(page)
 
     @Slot()
     def search(self):
-        query = {"area": self.area_search_edit.text(),
-         "label": self.label_search_edit.text(),
-         "text":self.search_edit.text()}
-        pub.sendMessage("page_search_event", arg1=query)
+        self.rebuild_page_list()
+
+    def lookup_page(self, index: int):
+        return self.page_list_model.itemFromIndex(index)
+
+    def rebuild_page_list(self):
+        self.page_list_model.clear()
+        print(self.model.pages()[0]["area"])
+        print(self.area_search_edit.text() in self.model.pages()[0]["area"])
+        for page in self.model.pages():
+            if (not self.area_search_edit.text() or self.area_search_edit.text() in page["area"]) \
+                    and (not self.label_search_edit.text() or self.label_search_edit.text() in page["label"])\
+                    and (not self.search_edit.text() or self.search_edit.text() in page["text"]):
+                item = QStandardItem(page["area"] + ": " + page["label"])
+                self.page_list_model.appendRow(item)
+            else:
+                print(page)
+
+    def model_update_event(self, arg1):
+        self.rebuild_page_list()
